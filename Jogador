@@ -1,0 +1,143 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Random;
+ 
+public class Jogador {
+	
+		String name;
+		int jogada;
+		ArrayList<Registos> arrReg = new ArrayList<Registos>();
+		int tiroY;
+		int tiroX;
+		int meusnaviosA=5;
+		int meusnaviosB=5;
+		int meusnaviosC=5;
+		int naviosinimigo=5;
+		int sucessotiros=0;
+		int sucessotirosinimigo=0;
+		int totaltiros=0;
+		Random random = new Random();
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		
+		public void fireA(){
+			System.out.println(name +" Insira as coordenadas dos tiros: ");
+			String op= scanner.next();
+			int linhaAC = (int) Character.toUpperCase(op.charAt(0))-'A';
+			int colunaAC = (int) op.charAt(1)-'1';
+			
+			while((colunaAC > 8 ) || (linhaAC > 8) ||(tirosdados(linhaAC,colunaAC)==true)){
+				//ver se o barco cabe no final das linhas e das colunas
+				System.out.println("Fora do tabuleiro ou tiro já dado ");
+				System.out.println("Insira de novo as coordenadas do tiro:  ");
+				op= scanner.next();
+				linhaAC=(int)Character.toUpperCase(op.charAt(0))-'A';
+				colunaAC = (int) op.charAt(1)-'1';
+			
+		}
+			tiroY= linhaAC;
+			tiroX= colunaAC;
+		}
+		public boolean tirosdados(int linha, int coluna)
+		{
+			for(int i =0; i<arrReg.size();i++)
+			{
+				if(linha ==arrReg.get(i).coordenadaY && coluna==arrReg.get(i).coordenadaX)
+					return true;
+			}
+			return false;
+		}
+		
+		public void fireC()//inserir os randoms
+		{
+			System.out.println(name +" Insira as coordenadas dos tiros: ");
+			int linhaAC =random.nextInt(8) ;
+			int colunaAC = random.nextInt(8);
+			
+			while((colunaAC > 8 ) || (linhaAC > 8) || (tirosdados(linhaAC,colunaAC)==true)){
+				//ver se o barco cabe no final das linhas e das colunas
+				System.out.println("Fora do tabuleiro ou tiro já dado ");
+				System.out.println("Insira de novo as coordenadas do tiro:  ");
+				linhaAC=random.nextInt(8);
+				colunaAC = random.nextInt(8);
+			
+		}
+			
+			tiroY= linhaAC;
+			tiroX= colunaAC;
+		}
+		public void fireC2()//inserir os randoms
+		{
+			System.out.println(name +" Insira as coordenadas dos tiros: ");
+			int linhaAC =random.nextInt(8) ;
+			int colunaAC = random.nextInt(8);
+			
+			while((colunaAC > 8 ) || (linhaAC > 8)||(tirosdados(linhaAC,colunaAC)==true)){
+				//ver se o barco cabe no final das linhas e das colunas
+				System.out.println("Fora do tabuleiro ou tiro já dado ");
+				System.out.println("Insira de novo as coordenadas do tiro:  ");
+				linhaAC=random.nextInt(8);
+				colunaAC = random.nextInt(8);
+			
+		}
+			tiroY= linhaAC;
+			tiroX= colunaAC;
+		}
+		
+		public void ListaJogadas()
+		{
+			for(int i=0; i<arrReg.size(); i++) {
+				System.out.println("Jogada: "+ arrReg.get(i).nJogadas);
+				System.out.println("Linha: " + arrReg.get(i).coordenadaY);
+				System.out.println("Coluna: " + arrReg.get(i).coordenadaX);
+				System.out.println("Mensagem: " + arrReg.get(i).resultado);
+				System.out.println("-----------------------------------");
+				System.out.println("-----------------------------------");
+				System.out.println("-----------------------------------");
+			}
+		}
+		public void adicionarJogada(int jogada, int linha,int coluna, String resultado)//guarda os registos das jogadas feitas no arraylist
+		{
+			
+			Registos reg = new Registos(jogada, linha, coluna, resultado);
+			arrReg.add(reg);   
+			
+		}
+		public int getTiroY() {
+			return tiroY;
+		}
+	 
+		public int getTiroX() {
+			return tiroX;
+		}
+		public Jogador(String nome) {
+			name = nome;
+			jogada=0;
+		}
+	 
+		public String getName() {
+			return name;
+		}
+		
+		public void fireB(){
+			System.out.println(name +" Insira as coordenadas dos tiros: ");
+			String op= scanner.next();
+			int linhaAC = (int) Character.toUpperCase(op.charAt(0))-'A';
+			int colunaAC = (int) op.charAt(1)-'1';
+			
+			while((colunaAC > 8 ) || (linhaAC > 8)||(tirosdados(linhaAC,colunaAC)==true)){
+				System.out.println("Fora do tabuleiro ou tiro já dado ");
+				System.out.println("Insira de novo as coordenadas do tiro:  ");
+				op= scanner.next();
+				linhaAC=(int)Character.toUpperCase(op.charAt(0))-'A';
+				colunaAC = (int) op.charAt(1)-'1';
+			
+		}
+			tiroY= linhaAC;
+			tiroX= colunaAC;
+		}
+		
+		
+	}
+
