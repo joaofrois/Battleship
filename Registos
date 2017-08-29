@@ -1,0 +1,16 @@
+public class Registos 
+{
+	
+	int nJogadas;
+    int coordenadaX;
+    int coordenadaY;
+    String resultado;
+
+
+    public Registos(int n, int y, int x, String m) {
+        nJogadas=n;
+        coordenadaY=y;
+        coordenadaX=x;
+        resultado=m;
+    }
+}
