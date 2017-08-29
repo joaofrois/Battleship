@@ -1,0 +1,190 @@
+public class Tabuleiro {
+
+	int linha;
+    int coluna;
+	char[][] tabuleiro = new char[8][8];
+	
+
+	
+	
+	
+	 
+	
+	
+
+   Jogador jogador;
+   
+
+	public Tabuleiro(Jogador j, char f) {
+		jogador = j;
+		for(int i=0;i<8;i++)
+		
+			for(int w=0;w<8;w++)
+				tabuleiro[i][w]=f;
+	}
+	
+     public void SetTabuleiro(int x, int y, char c)
+     {
+    	 tabuleiro[x][y]= c;
+     }
+	 public  char[][] getTabuleiro() {
+		return tabuleiro;
+	}
+
+	
+
+	
+	
+	public void desenha1(Barco[]f, int MaxBarcos,String nomeJogador)
+	{
+		
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		
+
+		System.out.println("           Inicio Tabuleiro de " + nomeJogador);
+		System.out.println();
+		System.out.println("        1   2   3   4   5   6   7   8");
+		System.out.println("        _____________________________");
+		System.out.println();
+		
+		
+		for(int i=0;i<MaxBarcos;i++)
+		 {
+			if(f[i]!=null)
+			{
+				
+			
+			int orientação=f[i].getOrientação();
+			tabuleiro[f[i].getLinha()][f[i].getColuna()] = f[i].getTipo();
+		   if(orientação == 0){ 
+		   for(int j =0;j<f[i].tamanho;j++)
+				   {
+			       tabuleiro[f[i].getLinha()][f[i].getColuna()+j] = f[i].getTipo();
+			        //Começo num ponto qualquer do tabuleiro e somo as posições para ter o tamanho correto do barco de acordo com as colunas
+				   }
+			 
+			
+			}
+		   else if (orientação == 1){
+			   for(int j =0;j<f[i].tamanho;j++)
+			   {
+		       tabuleiro[f[i].getLinha()+j][f[i].getColuna()] = f[i].getTipo();
+		        //Começo num ponto qualquer do tabuleiro e somo as posições para ter o tamanho correto do barco de acordo com as colunas
+			   }
+		   }
+			   
+		   }
+		 }
+		for (linha = 0; linha < 1; linha++) {
+			System.out.print("A   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		for (linha = 1; linha < 2; linha++) {
+			System.out.print("B   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		for (linha = 2; linha < 3; linha++) {
+			System.out.print("C   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		for (linha = 3; linha < 4; linha++) {
+			System.out.print("D   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		for (linha = 4; linha < 5; linha++) {
+			System.out.print("E   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		for (linha = 5; linha < 6; linha++) {
+			System.out.print("F   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		for (linha = 6; linha < 7; linha++) {
+			System.out.print("G   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		for (linha = 7; linha < 8; linha++) {
+			System.out.print("H   |   ");
+			for (coluna = 0; coluna < 8; coluna++) {
+				
+				
+				System.out.print(tabuleiro[linha][coluna]+"   ");
+				
+			}
+			System.out.println();
+		}
+		
+		
+			}
+	
+	
+
+
+	
+	
+	
+	public char verificar1(Jogador tiro)
+	{
+		
+			return tabuleiro[tiro.tiroY][tiro.tiroX];
+		
+		
+	
+		}
+				
+	
+			
+		
+		
+		
+	
+
+	
+	
+	
+}
