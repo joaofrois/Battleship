@@ -16,3 +16,5 @@ Console based game.
 Used Eclipse.
 
 First project! Still alot to learn.
+
+Feel free to ask anything.
