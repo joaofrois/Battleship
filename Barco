@@ -1,0 +1,51 @@
+public class Barco {
+	int linha;
+    int coluna;
+	int orientação;
+	char tipo;
+	char[] corpo;
+	int tamanho;
+	int tiros;
+	
+	
+	
+	public Barco(int linha2, int coluna2, int tam, char t,int o)
+	{
+		linha = linha2;
+		coluna = coluna2;
+		corpo = new char[tamanho];
+		tipo= t;
+		tamanho=tam;
+		orientação = o;
+		tiros=0;
+		
+	}
+	
+	
+	public int getLinha() {
+		return linha;
+	}
+	
+	public int getColuna() {
+		return coluna;
+	}
+	
+	public int getOrientação() {
+		return orientação;
+	}
+	
+	public char getTipo() {
+		return tipo;
+	}
+	
+	public char[] getCorpo() {
+		return corpo;
+	}
+	
+	public int getTamanho() {
+		return tamanho;
+	}
+	
+
+}
+
