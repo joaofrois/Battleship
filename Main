@@ -1,0 +1,979 @@
+
+
+import java.util.Scanner;
+
+public class Main {
+	Scanner scanner;
+	public static int MaxBarcos = 5;
+	public static int escolhaInicio;
+	public static int escolhaJogo;
+	public static int manualAutomatico;
+	public static int manualAutomaticoB;
+	public static int manualAutomaticoA;
+	static boolean certoInicio = false;
+	static boolean certoJogo = false;
+
+	public static void main(String[] args) {
+	
+		Inicio();
+		start();
+
+	}
+
+	public static void Inicio() {
+
+		String nomebarco = "0";
+		int paragem = 0;
+		char c;
+		int x = 0;
+		Scanner scanner = new Scanner(System.in);
+		do
+		{
+		System.out.println("\u001b[1;31mEscolha a opção: \u001b[0m");
+		System.out.println();
+		System.out.println("\u001b[1;31m1-\u001b[0mJogar Batalha Naval");
+		System.out.println("\u001b[1;31m2-\u001b[0mRegras");
+		System.out.println("\u001b[1;31m3-\u001b[0mCreditos");
+
+		
+
+		certoInicio = false;
+		certoJogo = false;
+
+		
+			escolhaInicio = scanner.nextInt();
+			if (escolhaInicio == 1 || escolhaInicio == 2 || escolhaInicio == 3) {
+				certoInicio = true;
+			} else {
+				System.out.println("Comando não reconhecido");
+				System.out.println("Escolha uma das tres opções.");
+			}
+
+		} while (!certoInicio);
+
+		if (escolhaInicio == 1) {
+
+			System.out.println("\u001b[1;31mEscolha a opção: \u001b[0m");
+			System.out.println();
+			System.out.println("\u001b[1;31m1-\u001b[0mJogador-Computador");
+			System.out.println("\u001b[1;31m2-\u001b[0mJogador-Jogador");
+			System.out.println("\u001b[1;31m3-\u001b[0mComputador-Computador");
+
+			do {
+				escolhaJogo = scanner.nextInt();
+				if (escolhaJogo == 1 || escolhaJogo == 2 || escolhaJogo == 3) {
+					certoJogo = true;
+				} else {
+					System.out.println("\u001b[1;31mComando Não Reconhecido\u001b[0m");
+					System.out.println("Escolha uma das tres opções.");
+				}
+
+			} while (!certoJogo);
+
+			if (escolhaJogo == 1) {
+				System.out.println("\u001b[1;31mJogador vs Computador\u001b[0m");
+
+			} else if (escolhaJogo == 2) {
+				System.out.println("\u001b[1;31mJogador vs Jogador\u001b[0m");
+			} else if (escolhaJogo == 3) {
+				System.out.println("\u001b[1;31mComputador vs Computador\u001b[0m");
+			}
+
+		}
+
+		// nestes dois ultimos temos de arranjar maneira de o jogador voltar
+		// para o menu inicial
+		else if (escolhaInicio == 2) {
+			System.out.println("  A batalha naval é um jogo de dois jogadores em que o objetivo é aniquilar a frota do inimigo; ");
+			System.out.println();
+			System.out.println("  É um jogo baseado em turnos, i.e., enquanto um jogador está a realizar uma jogada o outro não efetua qualquer ação; ");
+			System.out.println();
+			System.out.println("  É jogado num tabuleiro de 64 posições identificadas por uma letra (de A a H) e por um número (de 1 a 8); ");
+			System.out.println();
+			System.out.println("  Cada jogador tem uma frota de 5 navios com as seguintes dimensões:: ");
+			System.out.println();
+			System.out.println("  • 1 Aircraft carrier que ocupa 5 posições; ");
+			System.out.println("  • 1 Battleship que ocupa 4 posições; ");
+			System.out.println("  • 1 Cruiser que ocupa 3 posições; ");
+			System.out.println("  • 2 Destroyers que ocupam 2 posições cada. ");
+			System.out.println();
+			System.out.println("  Cada jogador define as posições iniciais dos seus navios respeitando as seguintes restrições: ");
+			System.out.println("  • Não podem existir navios sobrepostos; ");
+			System.out.println("  • Não podem existir navios orientados na diagonal. ");
+			System.out.println();
+			System.out.println("  No início do jogo cada jogador desconhece as posições dos navios do outro jogador; ");
+			System.out.println();
+			System.out.println("  Esta informação vai sendo acumulada à medida que são atacadas certas posições; ");
+			System.out.println();
+			System.out.println("  Em cada turno cada jogador escolhe uma posição onde atacar; ");
+			System.out.println();
+			System.out.println("  Quando é atacada uma posição é revelado se o ataque acertou em algum navio, e em caso afirmativo, em qual; ");
+			System.out.println();
+			System.out.println("  Um navio é destruído se for atingido em todas as suas posições; ");
+			System.out.println();
+			System.out.println("  Os jogadores são informados quando um navio é destruído; ");
+			System.out.println();
+			System.out.println("  O jogo termina quando um dos jogadores destruir toda a frota do adversário. ");
+			System.out.println();
+
+		} else if (escolhaInicio == 3) {
+			// nosso nome e numero e nome da cadeira
+			System.out.println("Alunos: João Fróis, nº2012296");
+			System.out.println("        Pedro Rosa, nº2012312");
+			System.out.println("Cadeira: Computação II");
+		}
+		
+	}
+
+	public static void start() {
+		Barco[] frotaA = new Barco[MaxBarcos];
+		Barco[] frotaB = new Barco[MaxBarcos];
+		Barco[] frotac1 = new Barco[MaxBarcos];
+		Barco[] frotac2 = new Barco[MaxBarcos];
+
+		Jogo jogo = new Jogo(frotaA, frotaB, frotac1, frotac2, MaxBarcos, 1);
+		Scanner scanner = new Scanner(System.in);
+		if (escolhaJogo == 1) {
+			System.out.println("Insira o nome do Jogador A: ");
+			String nome = scanner.next();
+			Jogador jogadorA = new Jogador(nome);
+			System.out.println("O jogo será entre o " + nome + " e o Computador");
+
+			Tabuleiro tabuleiroA = new Tabuleiro(jogadorA, ' ');
+			Tabuleiro tabuleiroC_A = new Tabuleiro(jogadorA, '?');
+			tabuleiroA.desenha1(frotaA, MaxBarcos, jogadorA.getName());
+			System.out.println("Insira o nome do Computador: ");
+			String nomeC = scanner.next();
+			Jogador jogadorC = new Jogador(nomeC);
+			System.out.println("O jogo será entre o " + nomeC + " e o Computador");
+
+			Tabuleiro tabuleiroA_C = new Tabuleiro(jogadorC, '?');
+			Tabuleiro tabuleiroC = new Tabuleiro(jogadorC, ' ');
+			tabuleiroC_A.desenha1(frotac1, 0, jogadorA.getName());
+			tabuleiroC.desenha1(frotac1, MaxBarcos, nome);
+			System.out.println(nome + " quer colocar peças automaticamente ou manualmente? ");
+			System.out.println("1 - Automatico");
+			System.out.println("2 - Manual");
+
+			do {
+				manualAutomatico = scanner.nextInt();
+				if (manualAutomatico == 1 || manualAutomatico == 2) {
+					certoJogo = true;
+				} else {
+					System.out.println("Comando não reconhecido");
+					System.out.println("Escolha uma das duas opções.");
+				}
+			} while (!certoInicio);
+
+			if (manualAutomatico == 1) {
+				jogo.automaticoA();
+				tabuleiroA.desenha1(frotaA, MaxBarcos, jogadorA.getName());
+
+			} else if (manualAutomatico == 2) {
+
+				jogo.manualJogadorA();
+				tabuleiroA.desenha1(frotaA, MaxBarcos, jogadorA.getName());
+
+			}
+
+			jogo.automaticoC1();
+			//tabuleiroC.desenha1(frotac1, MaxBarcos, jogadorC.getName());
+			jogo.getTabuleirotempC(tabuleiroC.tabuleiro);
+			int certosA = 0;
+			int certosC = 0;
+			
+		
+				do{
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				jogadorA.fireA();
+				jogadorA.totaltiros++;
+				char c = tabuleiroC.verificar1(jogadorA);
+				String nomebarco = "";
+				if (c != ' ') {
+
+					if (c == 'A')
+					{
+						nomebarco = "Aircaft Carrier";
+					       frotac1[0].tiros++;
+					       if(frotac1[0].tiros==5)
+							    jogadorC.meusnaviosC--;
+					}
+					
+
+					if (c == 'B')
+					{
+						nomebarco = "Battleship";
+					    frotac1[1].tiros++;
+					    if(frotac1[1].tiros==4)
+						    jogadorC.meusnaviosC--;
+					}
+						
+
+					if (c == 'C')
+					{
+						nomebarco = "Cruiser";
+					    frotac1[2].tiros++;
+					    
+					    if(frotac1[2].tiros==3)
+						    jogadorC.meusnaviosC--;
+					}
+
+					if (c == 'D')
+					{
+						nomebarco = "Destroyer";
+					    if(frotac1[3].orientação==0)//distinguir qual dos destroyers mandamos um tiro vertical ou horizontal
+					    {
+					    	if((jogadorA.tiroY==frotac1[3].linha)&&(jogadorA.tiroX==frotac1[3].coluna)||((jogadorA.tiroY==frotac1[3].linha)&&(jogadorA.tiroX==frotac1[3].coluna+1)))
+					    	
+					    		frotac1[3].tiros++;
+					    	
+					    }
+					    if((jogadorA.tiroY==frotac1[3].linha)&&(jogadorA.tiroX==frotac1[3].coluna)||((jogadorA.tiroY==frotac1[3].linha+1)&&(jogadorA.tiroX==frotac1[3].coluna)))
+					    	
+				    		frotac1[3].tiros++;
+					    
+					    if(frotac1[4].orientação==0)
+					    {
+					    	if((jogadorA.tiroY==frotac1[4].linha)&&(jogadorA.tiroX==frotac1[4].coluna)||((jogadorA.tiroY==frotac1[4].linha)&&(jogadorA.tiroX==frotac1[4].coluna+1)))
+					    	
+					    		frotac1[4].tiros++;
+					    	
+					    }
+					    if((jogadorA.tiroY==frotac1[4].linha)&&(jogadorA.tiroX==frotac1[4].coluna)||((jogadorA.tiroY==frotac1[4].linha+1)&&(jogadorA.tiroX==frotac1[4].coluna)))
+					    	
+				    		frotac1[4].tiros++;
+					    
+					    if(frotac1[3].tiros==2)
+					    jogadorC.meusnaviosC--;
+                        
+					    if(frotac1[4].tiros==2)
+						    jogadorC.meusnaviosC--;
+					}
+					
+
+					System.out.println("Acertou no " + nomebarco);
+					tabuleiroA_C.SetTabuleiro(jogadorA.getTiroY(), jogadorA.getTiroX(), 'X');
+					tabuleiroC.SetTabuleiro(jogadorA.tiroY, jogadorA.getTiroX(), 'X');
+					jogadorA.adicionarJogada(jogadorA.jogada++, jogadorA.getTiroY(), jogadorA.getTiroX(),
+							"Acertou no " + nomebarco);
+					jogadorA.sucessotiros++;
+					certosA++;
+					
+
+				} else {
+					System.out.println("Falhou");
+					tabuleiroA_C.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroY, 'M');
+					tabuleiroC.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroX, 'M');
+					jogadorA.adicionarJogada(jogadorA.jogada++, jogadorA.tiroY, jogadorA.tiroX, "Falhou");
+				}
+
+				tabuleiroA_C.desenha1(frotac1, 0, jogadorC.getName());
+				tabuleiroA.desenha1(frotaA, 5, jogadorA.getName());
+				System.out.println("Meus navios " + jogadorA.meusnaviosA + " / 5");
+				System.out.println("Navios Inimigos " + jogadorC.meusnaviosC + " / 5");
+				System.out.println("Tiros certeiros " + jogadorA.sucessotiros + "/" + jogadorA.totaltiros);
+				System.out.println("Próximo jogador, insira 1");
+				int paragem = scanner.nextInt();
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				System.out.println("Vez do " + jogadorC.getName());
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				
+				jogadorC.fireC();
+				jogadorC.totaltiros++;
+				char d = tabuleiroA.verificar1(jogadorC);
+				String nomebarcoC = "";
+				if (d != ' ') {
+
+					if (d == 'A')
+					{
+						nomebarcoC = "Aircaft Carrier";
+					    frotaA[0].tiros++;
+					if(frotaA[0].tiros==5)
+					    jogadorA.meusnaviosA--;
+					}
+
+					if (d == 'B')
+					{
+					    nomebarcoC = "Battleship";
+					    frotaA[1].tiros++;
+					
+					if(frotaA[1].tiros==4)
+					    jogadorA.meusnaviosA--;
+					}
+
+					if (d == 'C')
+					{
+						nomebarcoC = "Cruiser";
+					    frotaA[2].tiros++;
+					
+					if(frotaA[2].tiros==3)
+					    jogadorA.meusnaviosA--;
+					}
+
+					if (d == 'D')
+					{
+						nomebarcoC = "Destroyer";
+						if(frotaA[3].orientação==0)//distinguir qual dos destroyers mandamos um tiro vertical ou horizontal
+					    {
+					    	if((jogadorC.tiroY==frotaA[3].linha)&&(jogadorC.tiroX==frotaA[3].coluna)||((jogadorC.tiroY==frotaA[3].linha)&&(jogadorC.tiroX==frotaA[3].coluna+1)))
+					    	
+					    		frotac1[3].tiros++;
+					    	
+					    }
+					    if((jogadorC.tiroY==frotaA[3].linha)&&(jogadorC.tiroX==frotaA[3].coluna)||((jogadorC.tiroY==frotaA[3].linha+1)&&(jogadorC.tiroX==frotaA[3].coluna)))
+					    	
+				    		frotaA[3].tiros++;
+					    
+					    if(frotaA[4].orientação==0)
+					    {
+					    	if((jogadorC.tiroY==frotaA[4].linha)&&(jogadorC.tiroX==frotaA[4].coluna)||((jogadorC.tiroY==frotaA[4].linha)&&(jogadorC.tiroX==frotaA[4].coluna+1)))
+					    	
+					    		frotaA[4].tiros++;
+					    	
+					    }
+					    if((jogadorC.tiroY==frotaA[4].linha)&&(jogadorC.tiroX==frotaA[4].coluna)||((jogadorC.tiroY==frotaA[4].linha+1)&&(jogadorC.tiroX==frotaA[4].coluna)))
+					    	
+				    		frotaA[4].tiros++;
+					    
+					    if(frotaA[3].tiros==2)
+					    jogadorA.meusnaviosA--;
+                        
+					    if(frotaA[4].tiros==2)
+						    jogadorA.meusnaviosA--;
+						
+					    
+					}
+
+					System.out.println("Acertou no " + nomebarcoC);
+					tabuleiroC_A.SetTabuleiro(jogadorC.tiroY, jogadorC.tiroX, 'X');
+					tabuleiroA.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroX, 'X');
+					jogadorC.adicionarJogada(jogadorC.jogada++, jogadorC.tiroY, jogadorC.tiroX,"Acertou no " + nomebarcoC);
+					jogadorC.sucessotiros++;
+					certosC++;
+					
+					
+
+				} else {
+					System.out.println("Falhou");
+					tabuleiroC_A.SetTabuleiro(jogadorC.tiroY, jogadorC.tiroY, 'M');
+					tabuleiroA.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroX, 'M');
+					jogadorC.adicionarJogada(jogadorC.jogada++, jogadorC.tiroY, jogadorC.tiroX, "Falhou");
+				}
+
+				tabuleiroC_A.desenha1(frotaA, 0, jogadorA.getName());
+				tabuleiroC.desenha1(frotac1, 5, jogadorC.getName());
+				System.out.println("Meus navios " + jogadorC.meusnaviosC + " / 5");
+				System.out.println("Navios Inimigos " + jogadorA.meusnaviosA + " / 5");
+				System.out.println("Tiros certeiros " + jogadorC.sucessotiros + "/" + jogadorC.totaltiros);
+				
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				System.out.println("Vez do " + jogadorA.getName());
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				
+				if (certosC == 16){
+					System.out.println(jogadorC.getName() + " ganhou o jogo");
+					System.out.println("Jogo acabou");
+					System.out.println("Log jogador " + jogadorC.getName());
+					jogadorC.ListaJogadas();
+					System.out.println("Log jogador " + jogadorA.getName());
+					jogadorA.ListaJogadas();
+					
+					
+				}
+				else if(certosA == 16){
+					System.out.println(jogadorA.getName() + " ganhou o jogo");
+					System.out.println("Jogo acabou");
+					jogadorA.ListaJogadas();
+					jogadorC.ListaJogadas();
+				}
+				
+				
+
+				
+
+			}	while (!(jogo.fim(certosA) )&& !(jogo.fim(certosC))) ;
+
+		}
+
+		else if (escolhaJogo == 2) {
+			System.out.println("Insira o nome do Jogador A: ");
+			String nomeA = scanner.next();
+			Jogador jogadorA = new Jogador(nomeA);
+			System.out.println("Insira o nome do Jogador B: ");
+			String nomeB = scanner.next();
+			Jogador jogadorB = new Jogador(nomeB);
+			System.out.println("O jogo será entre o " + nomeA + " e o " + nomeB);
+			Tabuleiro tabuleiroA = new Tabuleiro(jogadorA, ' ');
+			Tabuleiro tabuleiroB_A=new Tabuleiro(jogadorA,'?');
+			tabuleiroA.desenha1(frotaA, MaxBarcos, jogadorA.getName());
+			Tabuleiro tabuleiroB = new Tabuleiro(jogadorB, ' ');
+			Tabuleiro tabuleiroA_B= new Tabuleiro(jogadorB, '?');
+			tabuleiroB_A.desenha1(frotaB, 0, jogadorA.getName());
+			tabuleiroB.desenha1(frotaB, MaxBarcos, jogadorB.getName());
+			
+			
+			System.out.println(nomeA + " quer colocar peças automaticamente ou manualmente? ");
+			System.out.println("1 - Automatico");
+			System.out.println("2 - Manual");
+
+			do {
+				manualAutomaticoA = scanner.nextInt();
+				if (manualAutomaticoA == 1 || manualAutomaticoA == 2) {
+					certoJogo = true;
+				} else {
+					System.out.println("Comando não reconhecido");
+					System.out.println("Escolha uma das duas opções.");
+				}
+			} while (!certoInicio);
+
+			if (manualAutomaticoA == 1) {
+				jogo.automaticoA();
+				tabuleiroA.desenha1(frotaA, MaxBarcos, jogadorA.getName());
+
+			} else if (manualAutomaticoA == 2) {
+				jogo.manualJogadorA();
+				tabuleiroA.desenha1(frotaA, MaxBarcos, jogadorA.getName());
+
+			}
+
+			System.out.println(nomeB + " quer colocar peças automaticamente ou manualmente? ");
+			System.out.println("1 - Automatico");
+			System.out.println("2 - Manual");
+
+			do {
+				manualAutomaticoB = scanner.nextInt();
+				if (manualAutomaticoB == 1 || manualAutomaticoB == 2) {
+					certoJogo = true;
+				} else {
+					System.out.println("Comando não reconhecido");
+					System.out.println("Escolha uma das duas opções.");
+				}
+			} while (!certoInicio);
+
+			if (manualAutomaticoB == 1) {
+				jogo.automaticoB();
+				tabuleiroB.desenha1(frotaB, MaxBarcos, jogadorB.getName());
+
+			} else if (manualAutomaticoB == 2) {
+				jogo.manualJogadorB();
+				tabuleiroB.desenha1(frotaB, MaxBarcos, jogadorB.getName());
+
+			}
+			int certoA=0;
+			int certoB=0;
+			
+			do{
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				
+				jogadorA.fireA();
+				jogadorA.totaltiros++;
+				char c = tabuleiroB.verificar1(jogadorA);
+				String nomebarco = "";
+				if (c != ' ') {
+
+					if (c == 'A')
+					{
+						nomebarco = "Aircaft Carrier";
+					       frotaB[0].tiros++;
+					       if(frotaB[0].tiros==5)
+							    jogadorB.meusnaviosB--;
+					}
+					
+
+					if (c == 'B')
+					{
+						nomebarco = "Battleship";
+					    frotaB[1].tiros++;
+					    if(frotaB[1].tiros==4)
+						    jogadorB.meusnaviosB--;
+					}
+						
+
+					if (c == 'C')
+					{
+						nomebarco = "Cruiser";
+					    frotaB[2].tiros++;
+					    
+					    if(frotaB[2].tiros==3)
+						    jogadorB.meusnaviosB--;
+					}
+
+					if (c == 'D')
+					{
+						nomebarco = "Destroyer";
+					    if(frotaB[3].orientação==0)//distinguir qual dos destroyers mandamos um tiro vertical ou horizontal
+					    {
+					    	if((jogadorA.tiroY==frotaB[3].linha)&&(jogadorA.tiroX==frotaB[3].coluna)||((jogadorA.tiroY==frotaB[3].linha)&&(jogadorA.tiroX==frotaB[3].coluna+1)))
+					    	
+					    		frotaB[3].tiros++;
+					    	
+					    }
+					    if((jogadorA.tiroY==frotaB[3].linha)&&(jogadorA.tiroX==frotaB[3].coluna)||((jogadorA.tiroY==frotaB[3].linha+1)&&(jogadorA.tiroX==frotaB[3].coluna)))
+					    	
+				    		frotaB[3].tiros++;
+					    
+					    if(frotaB[4].orientação==0)
+					    {
+					    	if((jogadorA.tiroY==frotaB[4].linha)&&(jogadorA.tiroX==frotaB[4].coluna)||((jogadorA.tiroY==frotaB[4].linha)&&(jogadorA.tiroX==frotaB[4].coluna+1)))
+					    	
+					    		frotaB[4].tiros++;
+					    	
+					    }
+					    if((jogadorA.tiroY==frotaB[4].linha)&&(jogadorA.tiroX==frotaB[4].coluna)||((jogadorA.tiroY==frotaB[4].linha+1)&&(jogadorA.tiroX==frotaB[4].coluna)))
+					    	
+				    		frotaB[4].tiros++;
+					    
+					    if(frotaB[3].tiros==2)
+					    jogadorB.meusnaviosB--;
+                        
+					    if(frotaB[4].tiros==2)
+						    jogadorB.meusnaviosB--;
+					}
+
+					System.out.println("Acertou no " + nomebarco);
+					tabuleiroA_B.SetTabuleiro(jogadorA.getTiroY(), jogadorA.getTiroX(), 'X');
+					tabuleiroB.SetTabuleiro(jogadorA.tiroY, jogadorA.getTiroX(), 'X');
+					jogadorA.adicionarJogada(jogadorA.jogada++, jogadorA.getTiroY(), jogadorA.getTiroX(),
+							"Acertou no " + nomebarco);
+					jogadorA.sucessotiros++;
+					certoA++;
+					
+
+				} else {
+					System.out.println("Falhou");
+					tabuleiroA_B.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroY, 'M');
+					tabuleiroB.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroX, 'M');
+					jogadorA.adicionarJogada(jogadorA.jogada++, jogadorA.tiroY, jogadorA.tiroX, "Falhou");
+				}
+
+				tabuleiroA_B.desenha1(frotac1, 0, jogadorB.getName());
+				tabuleiroA.desenha1(frotaA, 5, jogadorA.getName());
+				System.out.println("Meus navios " + jogadorA.meusnaviosA + " / 5");
+				System.out.println("Navios Inimigos " + jogadorB.meusnaviosB + " / 5");
+				System.out.println("Tiros certeiros " + jogadorA.sucessotiros + "/" + jogadorA.totaltiros);
+				System.out.println("Próximo jogador, insira 1");
+				int paragem = scanner.nextInt();
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				System.out.println("Vez do " + jogadorB.getName());
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				jogadorB.fireB();
+				jogadorB.totaltiros++;
+				char d = tabuleiroA.verificar1(jogadorB);
+				String nomebarcoC = "";
+				if (d != ' ') {
+
+					if (d == 'A')
+					{
+						nomebarcoC = "Aircaft Carrier";
+					    frotaA[0].tiros++;
+					if(frotaA[0].tiros==5)
+					    jogadorA.meusnaviosA--;
+					}
+
+					if (d == 'B')
+					{
+					    nomebarcoC = "Battleship";
+					    frotaA[1].tiros++;
+					
+					if(frotaA[1].tiros==4)
+					    jogadorA.meusnaviosA--;
+					}
+
+					if (d == 'C')
+					{
+						nomebarcoC = "Cruiser";
+					    frotaA[2].tiros++;
+					
+					if(frotaA[2].tiros==3)
+					    jogadorA.meusnaviosA--;
+					}
+
+					if (d == 'D')
+					{
+						nomebarcoC = "Destroyer";
+						if(frotaA[3].orientação==0)//distinguir qual dos destroyers mandamos um tiro vertical ou horizontal
+					    {
+					    	if((jogadorB.tiroY==frotaA[3].linha)&&(jogadorB.tiroX==frotaA[3].coluna)||((jogadorB.tiroY==frotaA[3].linha)&&(jogadorB.tiroX==frotaA[3].coluna+1)))
+					    	
+					    		frotaA[3].tiros++;
+					    	
+					    }
+					    if((jogadorB.tiroY==frotaA[3].linha)&&(jogadorB.tiroX==frotaA[3].coluna)||((jogadorB.tiroY==frotaA[3].linha+1)&&(jogadorB.tiroX==frotaA[3].coluna)))
+					    	
+				    		frotaA[3].tiros++;
+					    
+					    if(frotaA[4].orientação==0)
+					    {
+					    	if((jogadorB.tiroY==frotaA[4].linha)&&(jogadorB.tiroX==frotaA[4].coluna)||((jogadorB.tiroY==frotaA[4].linha)&&(jogadorB.tiroX==frotaA[4].coluna+1)))
+					    	
+					    		frotaA[4].tiros++;
+					    	
+					    }
+					    if((jogadorB.tiroY==frotaA[4].linha)&&(jogadorB.tiroX==frotaA[4].coluna)||((jogadorB.tiroY==frotaA[4].linha+1)&&(jogadorB.tiroX==frotaA[4].coluna)))
+					    	
+				    		frotaA[4].tiros++;
+					    
+					    if(frotaA[3].tiros==2)
+					    jogadorA.meusnaviosA--;
+                        
+					    if(frotaA[4].tiros==2)
+						    jogadorA.meusnaviosA--;
+						
+					    
+					}
+
+					System.out.println("Acertou no " + nomebarcoC);
+					tabuleiroB_A.SetTabuleiro(jogadorB.tiroY, jogadorB.tiroX, 'X');
+					tabuleiroA.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroX, 'X');
+					jogadorB.adicionarJogada(jogadorB.jogada++, jogadorB.tiroY, jogadorB.tiroX,"Acertou no " + nomebarcoC);
+					jogadorB.sucessotiros++;
+					certoB++;
+					
+					
+
+				} else {
+					System.out.println("Falhou");
+					tabuleiroB_A.SetTabuleiro(jogadorB.tiroY, jogadorB.tiroY, 'M');
+					tabuleiroA.SetTabuleiro(jogadorA.tiroY, jogadorA.tiroX, 'M');
+					jogadorB.adicionarJogada(jogadorB.jogada++, jogadorB.tiroY, jogadorB.tiroX, "Falhou");
+				}
+
+				tabuleiroB_A.desenha1(frotaA, 0, jogadorA.getName());
+				tabuleiroA.desenha1(frotaA, 5, jogadorB.getName());
+				System.out.println("Meus navios " + jogadorB.meusnaviosB + " / 5");
+				System.out.println("Navios Inimigos " + jogadorA.meusnaviosA + " / 5");
+				System.out.println("Tiros certeiros " + jogadorB.sucessotiros + "/" + jogadorB.totaltiros);
+				
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				System.out.println("Vez do " + jogadorA.getName());
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				
+				if (certoB == 16){
+					System.out.println(jogadorB.getName() + " ganhou o jogo");
+					System.out.println("Jogo acabou");
+					System.out.println("Log jogador " + jogadorB.getName());
+					jogadorB.ListaJogadas();
+					System.out.println("Log jogador " + jogadorA.getName());
+					jogadorA.ListaJogadas();
+					
+				}
+				else if(certoA == 16){
+					System.out.println(jogadorA.getName() + " ganhou o jogo");
+					System.out.println("Jogo acabou");
+					System.out.println("Log jogador " + jogadorA.getName());
+					jogadorA.ListaJogadas();
+					System.out.println("Log jogador " + jogadorB.getName());
+					jogadorB.ListaJogadas();
+					
+				}
+				
+
+				
+
+			}	while (!(jogo.fim(certoA) )&& !(jogo.fim(certoB))) ;
+					
+
+				}
+
+			
+
+		
+		else if (escolhaJogo == 3) {
+			System.out.println("Insira o nome do Computador 1: ");
+			String nomeC1 = scanner.next();
+			Jogador jogadorC1 = new Jogador(nomeC1);
+			System.out.println("Insira o nome do Computador 2: ");
+			String nomeC2 = scanner.next();
+			Jogador jogadorC2 = new Jogador(nomeC2);
+			System.out.println("O jogo será entre o " + nomeC1 + " e o " + nomeC2);
+			Tabuleiro tabuleiroC1 = new Tabuleiro(jogadorC1, ' ');
+			Tabuleiro tabuleiroC2_C1 = new Tabuleiro(jogadorC1, '?');
+			tabuleiroC1.desenha1(frotac1, MaxBarcos, jogadorC1.getName());
+			Tabuleiro tabuleiroC2 = new Tabuleiro(jogadorC2, ' ');
+			Tabuleiro tabuleiroC1_C2 = new Tabuleiro(jogadorC2, '?');
+			tabuleiroC2_C1.desenha1(frotac2, 0, jogadorC1.getName());
+			tabuleiroC2.desenha1(frotac2, MaxBarcos, jogadorC2.getName());
+			System.out.println("Prima 1 para começar");
+
+			do {
+				manualAutomaticoA = scanner.nextInt();
+				if (manualAutomaticoA == 1) {
+					certoJogo = true;
+				} else {
+					System.out.println("Comando não reconhecido");
+					System.out.println("Carregue no 1");
+				}
+			} while (!certoInicio);
+			jogo.automaticoC1();
+			tabuleiroC1.desenha1(frotac1, MaxBarcos, nomeC1);
+			jogo.automaticoC2();
+			tabuleiroC2.desenha1(frotac2, MaxBarcos, nomeC2);
+			jogo.getTabuleirotempC(tabuleiroC1.tabuleiro);
+			jogo.getTabuleirotempC2(tabuleiroC2.tabuleiro);
+			
+			
+			int certoc1=0;
+			int certoc2=0;
+			
+			do{	
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				jogadorC1.fireC();
+				jogadorC1.totaltiros++;
+				char c = tabuleiroC2.verificar1(jogadorC1);
+				String nomebarco = "";
+				if (c != ' ') {
+
+					if (c == 'A')
+					{
+						nomebarco = "Aircaft Carrier";
+					       frotac2[0].tiros++;
+					       if(frotac2[0].tiros==5)
+							    jogadorC2.meusnaviosC--;
+					}
+					
+
+					if (c == 'B')
+					{
+						nomebarco = "Battleship";
+					    frotac2[1].tiros++;
+					    if(frotac2[1].tiros==4)
+						    jogadorC2.meusnaviosC--;
+					}
+						
+
+					if (c == 'C')
+					{
+						nomebarco = "Cruiser";
+					    frotac2[2].tiros++;
+					    
+					    if(frotac2[2].tiros==3)
+						    jogadorC2.meusnaviosC--;
+					}
+
+					if (c == 'D')
+					{
+						nomebarco = "Destroyer";
+					    if(frotac2[3].orientação==0)//distinguir qual dos destroyers mandamos um tiro vertical ou horizontal
+					    {
+					    	if((jogadorC1.tiroY==frotac2[3].linha)&&(jogadorC1.tiroX==frotac2[3].coluna)||((jogadorC1.tiroY==frotac2[3].linha)&&(jogadorC1.tiroX==frotac2[3].coluna+1)))
+					    	
+					    		frotac2[3].tiros++;
+					    	
+					    }
+					    if((jogadorC1.tiroY==frotac2[3].linha)&&(jogadorC1.tiroX==frotac2[3].coluna)||((jogadorC1.tiroY==frotac2[3].linha+1)&&(jogadorC1.tiroX==frotac2[3].coluna)))
+					    	
+				    		frotac2[3].tiros++;
+					    
+					    if(frotac2[4].orientação==0)
+					    {
+					    	if((jogadorC1.tiroY==frotac2[4].linha)&&(jogadorC1.tiroX==frotac2[4].coluna)||((jogadorC1.tiroY==frotac2[4].linha)&&(jogadorC1.tiroX==frotac2[4].coluna+1)))
+					    	
+					    		frotac2[4].tiros++;
+					    	
+					    }
+					    if((jogadorC1.tiroY==frotac2[4].linha)&&(jogadorC1.tiroX==frotac2[4].coluna)||((jogadorC1.tiroY==frotac2[4].linha+1)&&(jogadorC1.tiroX==frotac2[4].coluna)))
+					    	
+				    		frotac2[4].tiros++;
+					    
+					    if(frotac2[3].tiros==2)
+					    jogadorC2.meusnaviosC--;
+                        
+					    if(frotac2[4].tiros==2)
+						    jogadorC2.meusnaviosC--;
+					}
+
+					System.out.println("Acertou no " + nomebarco);
+					tabuleiroC1_C2.SetTabuleiro(jogadorC1.getTiroY(), jogadorC1.getTiroX(), 'X');
+					tabuleiroC2.SetTabuleiro(jogadorC1.tiroY, jogadorC1.getTiroX(), 'X');
+					jogadorC1.adicionarJogada(jogadorC1.jogada++, jogadorC1.getTiroY(), jogadorC1.getTiroX(),
+							"Acertou no " + nomebarco);
+					jogadorC1.sucessotiros++;
+					certoc1++;
+					
+
+				} else {
+					System.out.println("Falhou");
+					tabuleiroC1_C2.SetTabuleiro(jogadorC1.tiroY, jogadorC1.tiroY, 'M');
+					tabuleiroC2.SetTabuleiro(jogadorC1.tiroY, jogadorC1.tiroX, 'M');
+					jogadorC1.adicionarJogada(jogadorC1.jogada++, jogadorC1.tiroY, jogadorC1.tiroX, "Falhou");
+				}
+
+				tabuleiroC1_C2.desenha1(frotac2, 0, jogadorC2.getName());
+				tabuleiroC1.desenha1(frotac1, 5, jogadorC1.getName());
+				System.out.println("Meus navios " + jogadorC1.meusnaviosB + " / 5");
+				System.out.println("Navios Inimigos " + jogadorC2.meusnaviosC + " / 5");
+				System.out.println("Tiros certeiros " + jogadorC1.sucessotiros + "/" + jogadorC1.totaltiros);
+				System.out.println("Próximo jogador, insira 1");
+				int paragem = scanner.nextInt();
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				System.out.println("Vez do " + jogadorC2.getName());
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				jogadorC2.fireC2();
+				jogadorC2.totaltiros++;
+				char d = tabuleiroC1.verificar1(jogadorC2);
+				String nomebarcoC = "";
+				if (d != ' ') {
+
+					if (d == 'A')
+					{
+						nomebarcoC = "Aircaft Carrier";
+					    frotac1[0].tiros++;
+					if(frotac1[0].tiros==5)
+					    jogadorC1.meusnaviosB--;
+					}
+
+					if (d == 'B')
+					{
+					    nomebarcoC = "Battleship";
+					    frotac1[1].tiros++;
+					
+					if(frotac1[1].tiros==4)
+					    jogadorC1.meusnaviosB--;
+					}
+
+					if (d == 'C')
+					{
+						nomebarcoC = "Cruiser";
+					    frotac1[2].tiros++;
+					
+					if(frotac1[2].tiros==3)
+					    jogadorC1.meusnaviosB--;
+					}
+
+					if (d == 'D')
+					{
+						nomebarcoC = "Destroyer";
+						if(frotac1[3].orientação==0)//distinguir qual dos destroyers mandamos um tiro vertical ou horizontal
+					    {
+					    	if((jogadorC2.tiroY==frotac1[3].linha)&&(jogadorC2.tiroX==frotac1[3].coluna)||((jogadorC2.tiroY==frotac1[3].linha)&&(jogadorC2.tiroX==frotac1[3].coluna+1)))
+					    	
+					    		frotac1[3].tiros++;
+					    	
+					    }
+					    if((jogadorC2.tiroY==frotac1[3].linha)&&(jogadorC2.tiroX==frotaA[3].coluna)||((jogadorC2.tiroY==frotac1[3].linha+1)&&(jogadorC2.tiroX==frotac1[3].coluna)))
+					    	
+				    		frotac1[3].tiros++;
+					    
+					    if(frotac1[4].orientação==0)
+					    {
+					    	if((jogadorC2.tiroY==frotac1[4].linha)&&(jogadorC2.tiroX==frotac1[4].coluna)||((jogadorC2.tiroY==frotac1[4].linha)&&(jogadorC2.tiroX==frotac1[4].coluna+1)))
+					    	
+					    		frotac1[4].tiros++;
+					    	
+					    }
+					    if((jogadorC2.tiroY==frotac1[4].linha)&&(jogadorC2.tiroX==frotac1[4].coluna)||((jogadorC2.tiroY==frotac1[4].linha+1)&&(jogadorC2.tiroX==frotac1[4].coluna)))
+					    	
+				    		frotac1[4].tiros++;
+					    
+					    if(frotac1[3].tiros==2)
+					    jogadorC1.meusnaviosB--;
+                        
+					    if(frotac1[4].tiros==2)
+						    jogadorC1.meusnaviosB--;
+						
+					    
+					}
+
+					System.out.println("Acertou no " + nomebarcoC);
+					tabuleiroC2_C1.SetTabuleiro(jogadorC2.tiroY, jogadorC2.tiroX, 'X');
+					tabuleiroC1.SetTabuleiro(jogadorC2.tiroY, jogadorC2.tiroX, 'X');
+					jogadorC2.adicionarJogada(jogadorC2.jogada++, jogadorC2.tiroY, jogadorC2.tiroX,"Acertou no " + nomebarcoC);
+					jogadorC2.sucessotiros++;
+					certoc2++;
+					
+					
+
+				} else {
+					System.out.println("Falhou");
+					tabuleiroC2_C1.SetTabuleiro(jogadorC2.tiroY, jogadorC2.tiroY, 'M');
+					tabuleiroC1.SetTabuleiro(jogadorC2.tiroY, jogadorC2.tiroX, 'M');
+					jogadorC2.adicionarJogada(jogadorC2.jogada++, jogadorC2.tiroY, jogadorC2.tiroX, "Falhou");
+				}
+
+				tabuleiroC2_C1.desenha1(frotac1, 0, jogadorC2.getName());
+				tabuleiroC2.desenha1(frotac2, 5, jogadorC2.getName());
+				System.out.println("Meus navios " + jogadorC2.meusnaviosC + " / 5");
+				System.out.println("Navios Inimigos " + jogadorC1.meusnaviosB + " / 5");
+				System.out.println("Tiros certeiros " + jogadorC2.sucessotiros + "/" + jogadorC2.totaltiros);
+				
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				System.out.println("Vez do " +jogadorC1.getName());
+
+				for (int i = 0; i <= 5; i++)
+					System.out.println();
+
+				
+				if (certoc2 == 16){
+					System.out.println(jogadorC2.getName() + " ganhou o jogo");
+					System.out.println("Jogo acabou");
+					System.out.println("Log jogador " + jogadorC2.getName());
+					jogadorC2.ListaJogadas();
+					System.out.println("Log jogador " + jogadorC1.getName());
+					jogadorC1.ListaJogadas();
+				}
+				else if(certoc1 == 16){
+					System.out.println(jogadorC1.getName() + " ganhou o jogo");
+					System.out.println("Jogo acabou");
+					System.out.println("Log jogador " + jogadorC1.getName());
+					jogadorC1.ListaJogadas();
+					System.out.println("Log jogador " + jogadorC2.getName());
+					jogadorC2.ListaJogadas();
+					
+				}
+				
+
+				
+
+			}	while (!(jogo.fim(certoc1) )&& !(jogo.fim(certoc2))) ;
+
+	}
+	}
+}
