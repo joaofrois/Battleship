@@ -1,0 +1,761 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class Jogo {
+	Scanner scanner = new Scanner(System.in);
+	int tipoJogo;
+	Barco[] jfA, jfB, jfc1, jfc2, ftemp;
+	Random random = new Random();
+	char[][] tabu = new char[8][8];
+	char[][] tabuB = new char[8][8];
+	char[][] tabuC = new char[8][8];
+
+	public Jogo(Barco[] fA, Barco[] fB, Barco[] fc1, Barco[] fc2, int tamanhomax, int tj) {
+		for (int i = 0; i < tamanhomax; i++) {
+			fA[i] = fB[i] = fc1[i] = fc2[i] = null;
+		}
+
+		jfA = fA;
+		jfB = fB;
+		jfc1 = fc1;
+		jfc2 = fc2;
+		tipoJogo = tj;
+
+		for (int i = 0; i < tabu.length; i++) {
+			for (int j = 0; j < tabu[i].length; j++) {
+				tabu[i][j] = '0';
+				tabuB[i][j] = '0';
+				tabuC[i][j] = '0';
+			}
+		}
+	}
+
+	public Jogo(int TipoJogo) {
+		TipoJogo = tipoJogo;
+	}
+
+	public void getTabuleirotemp(char[][] tab) {
+		for (int i = 0; i < tabu.length; i++) {
+			for (int j = 0; j < tabu[i].length; j++) {
+				if (tabu[i][j] == '0')
+					tab[i][j] = ' ';
+
+				else
+					tab[i][j] = tabu[i][j];
+
+			}
+		}
+	}
+
+	public void getTabuleirotempC(char[][] tab) {
+		for (int i = 0; i < tabuC.length; i++) {
+			for (int j = 0; j < tabuC[i].length; j++) {
+				if (tabuC[i][j] == '0')
+					tab[i][j] = ' ';
+
+				else
+					tab[i][j] = tabuC[i][j];
+
+			}
+		}
+	}
+
+	public void getTabuleirotempC2(char[][] tab) {
+		for (int i = 0; i < tabuB.length; i++) {
+			for (int j = 0; j < tabuB[i].length; j++) {
+				if (tabuB[i][j] == '0')
+					tab[i][j] = ' ';
+
+				else
+					tab[i][j] = tabuB[i][j];
+
+			}
+		}
+	}
+
+	public void automaticoA() {
+		for (int i = 0; i < tabu.length; i++) {
+			for (int j = 0; j < tabu[i].length; j++) {
+				tabu[i][j] = '0';
+			}
+		}
+		System.out.println("Jogador A");
+		for (int i = 0; i <= 4; i++) {
+			jfA[i] = getbarcoAUA(i);
+			int orientação = jfA[i].getOrientação();
+			tabu[jfA[i].getLinha()][jfA[i].getColuna()] = jfA[i].getTipo();
+			if (orientação == 0) {
+				for (int j = 0; j < jfA[i].tamanho; j++) {
+					tabu[jfA[i].getLinha()][jfA[i].getColuna() + j] = jfA[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+
+			} else if (orientação == 1) {
+				for (int j = 0; j < jfA[i].tamanho; j++) {
+					tabu[jfA[i].getLinha() + j][jfA[i].getColuna()] = jfA[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+			}
+		}
+
+	}
+
+	public void automaticoC1() {
+		for (int i = 0; i < tabuC.length; i++) {
+			for (int j = 0; j < tabuC[i].length; j++) {
+				tabuC[i][j] = '0';
+
+			}
+		}
+		System.out.println("Computador 1");
+		for (int i = 0; i <= 4; i++) {
+			jfc1[i] = getbarcoAUC1(i);
+			int orientação = jfc1[i].getOrientação();
+			tabuC[jfc1[i].getLinha()][jfc1[i].getColuna()] = jfc1[i].getTipo();
+			if (orientação == 0) {
+				for (int j = 0; j < jfc1[i].tamanho; j++) {
+					tabuC[jfc1[i].getLinha()][jfc1[i].getColuna() + j] = jfc1[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+
+			} else if (orientação == 1) {
+				for (int j = 0; j < jfc1[i].tamanho; j++) {
+					tabuC[jfc1[i].getLinha() + j][jfc1[i].getColuna()] = jfc1[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+			}
+		}
+
+	}
+
+	public void automaticoC2() {
+		for (int i = 0; i < tabuB.length; i++) {
+			for (int j = 0; j < tabuB[i].length; j++) {
+
+				tabuB[i][j] = '0';
+
+			}
+		}
+		System.out.println("Computador 2");
+		for (int i = 0; i <= 4; i++) {
+			jfc2[i] = getbarcoAUC2(i);
+			int orientação = jfc2[i].getOrientação();
+			tabuB[jfc2[i].getLinha()][jfc2[i].getColuna()] = jfc2[i].getTipo();
+			if (orientação == 0) {
+				for (int j = 0; j < jfc2[i].tamanho; j++) {
+					tabuB[jfc2[i].getLinha()][jfc2[i].getColuna() + j] = jfc2[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+
+			} else if (orientação == 1) {
+				for (int j = 0; j < jfc2[i].tamanho; j++) {
+					tabuB[jfc2[i].getLinha() + j][jfc2[i].getColuna()] = jfc2[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+			}
+		}
+
+	}
+
+	public void automaticoB() {
+
+		for (int i = 0; i < tabuB.length; i++) {
+			for (int j = 0; j < tabuB[i].length; j++) {
+				tabuB[i][j] = '0';
+			}
+		}
+		System.out.println("Jogador B");
+		for (int i = 0; i <= 4; i++) {
+			jfB[i] = getbarcoAUB(i);
+			int orientação = jfB[i].getOrientação();
+			tabuB[jfB[i].getLinha()][jfB[i].getColuna()] = jfB[i].getTipo();
+			if (orientação == 0) {
+				for (int j = 0; j < jfB[i].tamanho; j++) {
+					tabuB[jfB[i].getLinha()][jfB[i].getColuna() + j] = jfB[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+
+			} else if (orientação == 1) {
+				for (int j = 0; j < jfB[i].tamanho; j++) {
+					tabuB[jfB[i].getLinha() + j][jfB[i].getColuna()] = jfB[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+			}
+		}
+	}
+
+	public void manualJogadorA() {
+
+		for (int i = 0; i < tabu.length; i++) {
+			for (int j = 0; j < tabu[i].length; j++) {
+				tabu[i][j] = '0';
+			}
+		}
+		System.out.println("Jogador A");
+		for (int i = 0; i <= 4; i++) {
+			jfA[i] = getbarcoA(i);
+			int orientação = jfA[i].getOrientação();
+			tabu[jfA[i].getLinha()][jfA[i].getColuna()] = jfA[i].getTipo();
+			if (orientação == 0) {
+				for (int j = 0; j < jfA[i].tamanho; j++) {
+					tabu[jfA[i].getLinha()][jfA[i].getColuna() + j] = jfA[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+
+			} else if (orientação == 1) {
+				for (int j = 0; j < jfA[i].tamanho; j++) {
+					tabu[jfA[i].getLinha() + j][jfA[i].getColuna()] = jfA[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+			}
+		}
+
+	}
+
+	public void manualJogadorB() {
+		for (int i = 0; i < tabuB.length; i++) {
+			for (int j = 0; j < tabuB[i].length; j++) {
+				tabuB[i][j] = '0';
+			}
+		}
+		System.out.println("Jogador B");
+		for (int i = 0; i <= 4; i++) {
+			jfB[i] = getbarcoB(i);
+			int orientação = jfB[i].getOrientação();
+			tabuB[jfB[i].getLinha()][jfB[i].getColuna()] = jfB[i].getTipo();
+			if (orientação == 0) {
+				for (int j = 0; j < jfB[i].tamanho; j++) {
+					tabuB[jfB[i].getLinha()][jfB[i].getColuna() + j] = jfB[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+
+			} else if (orientação == 1) {
+				for (int j = 0; j < jfB[i].tamanho; j++) {
+					tabuB[jfB[i].getLinha() + j][jfB[i].getColuna()] = jfB[i].getTipo();
+					// Começo num ponto qualquer do tabuleiro e somo as posições
+					// para ter o tamanho correto do barco de acordo com as
+					// colunas
+				}
+			}
+
+		}
+	}
+
+	public Barco getbarcoA(int tipo) {
+		int tamanho = 0;
+		char corpo = 0;
+
+		switch (tipo) {
+
+		case 0:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Aircraft Carrier e a sua orientação(0 horizontal, 1 vertical):");
+
+			tamanho = 5;
+			corpo = 'A';
+			break;
+
+		case 1:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Battleship e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 4;
+			corpo = 'B';
+			break;
+
+		case 2:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Cruiser e a sua orientação(0 horizontal, 1 vertical):");
+			
+			
+			tamanho = 3;
+			corpo = 'C';
+			break;
+
+		case 3:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer1 e a sua orientação(0 horizontal, 1 vertical):");
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+
+		case 4:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer2 e a sua orientação(0 horizontal, 1 vertical):");
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+		}
+
+		String op = scanner.next();
+
+		int linhaAC = (int) Character.toUpperCase(op.charAt(0)) - 'A';
+		int colunaAC = (int) op.charAt(1) - '1';
+		int orienta = scanner.nextInt();
+		System.out.println(linhaAC + "  -  " + colunaAC);
+
+		while ((colunaAC > 8 - tamanho && orienta == 0) || (linhaAC > 8 - tamanho && orienta == 1)
+				|| (colisao(linhaAC, colunaAC, tamanho, orienta, tabu))) {
+			// ver se o barco cabe no final das linhas e das colunas
+			System.out.println("Fora do tabuleiro ou peça sobreposta");
+			System.out.println("Insira de novo as coordenadas do Barco:  ");
+			op = scanner.next();
+			linhaAC = (int) Character.toUpperCase(op.charAt(0)) - 'A';
+			colunaAC = (int) op.charAt(1) - '1';
+			orienta = scanner.nextInt();
+			System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		}
+
+		Barco a = new Barco(linhaAC, colunaAC, tamanho, corpo, orienta);
+		return a;
+	}
+
+	public Barco getbarcoB(int tipo) {
+		int tamanho = 0;
+		char corpo = 0;
+
+		switch (tipo) {
+
+		case 0:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Aircraft Carrier e a sua orientação(0 horizontal, 1 vertical):");
+			tamanho = 5;
+			corpo = 'A';
+			break;
+
+		case 1:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Battleship e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 4;
+			corpo = 'B';
+			break;
+
+		case 2:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Cruiser e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 3;
+			corpo = 'C';
+			break;
+
+		case 3:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer1 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+
+		case 4:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer2 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+		}
+
+		String op = scanner.next();
+
+		int linhaAC = (int) Character.toUpperCase(op.charAt(0)) - 'A';
+		int colunaAC = (int) op.charAt(1) - '1';
+		int orienta = scanner.nextInt();
+		System.out.println(linhaAC + "  -  " + colunaAC);
+
+		while ((colunaAC > 8 - tamanho && orienta == 0) || (linhaAC > 8 - tamanho && orienta == 1)
+				|| (colisao(linhaAC, colunaAC, tamanho, orienta, tabuB))) {
+			// ver se o barco cabe no final das linhas e das colunas
+			System.out.println("Fora do tabuleiro ou peça sobreposta");
+			System.out.println("Insira de novo as coordenadas do Barco:  ");
+			op = scanner.next();
+			linhaAC = (int) Character.toUpperCase(op.charAt(0)) - 'A';
+			colunaAC = (int) op.charAt(1) - '1';
+			orienta = scanner.nextInt();
+			System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		}
+
+		Barco a = new Barco(linhaAC, colunaAC, tamanho, corpo, orienta);
+		return a;
+	}
+
+	public Barco getbarcoAUA(int tipo)
+
+	{
+		int tamanho = 0;
+		char corpo = 0;
+
+		switch (tipo) {
+
+		case 0:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Aircraft Carrier e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 5;
+			corpo = 'A';
+			break;
+
+		case 1:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Battleship e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 4;
+			corpo = 'B';
+			break;
+
+		case 2:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Cruiser e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 3;
+			corpo = 'C';
+			break;
+
+		case 3:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer1 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+
+		case 4:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer2 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+		}
+
+		int linhaAC = random.nextInt(8);
+		int colunaAC = random.nextInt(8);
+		int orienta = random.nextInt(2);
+		System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		while ((colunaAC > 8 - tamanho && orienta == 0) || (linhaAC > 8 - tamanho && orienta == 1)
+				|| (colisao(linhaAC, colunaAC, tamanho, orienta, tabu))) {
+			// ver se o barco cabe no final das linhas e das colunas
+			System.out.println("Fora do tabuleiro ou peça sobreposta");
+			System.out.println("Insira de novo as coordenadas do Barco:  ");
+
+			linhaAC = random.nextInt(8);
+			colunaAC = random.nextInt(8);
+			orienta = random.nextInt(2);
+			System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		}
+		Barco a = new Barco(linhaAC, colunaAC, tamanho, corpo, orienta);
+		return a;
+	}
+
+	public Barco getbarcoAUB(int tipo)
+
+	{
+		int tamanho = 0;
+		char corpo = 0;
+
+		switch (tipo) {
+
+		case 0:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Aircraft Carrier e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 5;
+			corpo = 'A';
+			break;
+
+		case 1:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Battleship e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 4;
+			corpo = 'B';
+			break;
+
+		case 2:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Cruiser e a sua orientação(0 horizontal, 1 vertical):");
+		
+			tamanho = 3;
+			corpo = 'C';
+			break;
+
+		case 3:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer1 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+
+		case 4:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer2 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+		}
+
+		int linhaAC = random.nextInt(8);
+		int colunaAC = random.nextInt(8);
+		int orienta = random.nextInt(2);
+		System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		while ((colunaAC > 8 - tamanho && orienta == 0) || (linhaAC > 8 - tamanho && orienta == 1)
+				|| (colisao(linhaAC, colunaAC, tamanho, orienta, tabuB))) {
+			// ver se o barco cabe no final das linhas e das colunas
+			System.out.println("Fora do tabuleiro ou peça sobreposta");
+			System.out.println("Insira de novo as coordenadas do Barco:  ");
+
+			linhaAC = random.nextInt(8);
+			colunaAC = random.nextInt(8);
+			orienta = random.nextInt(2);
+			System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		}
+		Barco a = new Barco(linhaAC, colunaAC, tamanho, corpo, orienta);
+		return a;
+	}
+
+	public Barco getbarcoAUC1(int tipo)
+
+	{
+		int tamanho = 0;
+		char corpo = 0;
+
+		switch (tipo) {
+
+		case 0:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Aircraft Carrier e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 5;
+			corpo = 'A';
+			break;
+
+		case 1:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Battleship e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 4;
+			corpo = 'B';
+			break;
+
+		case 2:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Cruiser e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 3;
+			corpo = 'C';
+			break;
+
+		case 3:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer1 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+
+		case 4:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer2 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+		}
+
+		int linhaAC = random.nextInt(8);
+		int colunaAC = random.nextInt(8);
+		int orienta = random.nextInt(2);
+		System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		while ((colunaAC > 8 - tamanho && orienta == 0) || (linhaAC > 8 - tamanho && orienta == 1)
+				|| (colisao(linhaAC, colunaAC, tamanho, orienta, tabuC))) {
+			// ver se o barco cabe no final das linhas e das colunas
+			System.out.println("Fora do tabuleiro ou peça sobreposta");
+			System.out.println("Insira de novo as coordenadas do Barco:  ");
+
+			linhaAC = random.nextInt(8);
+			colunaAC = random.nextInt(8);
+			orienta = random.nextInt(2);
+			System.out.println(linhaAC + "  -  " + colunaAC + " -  " + orienta);
+
+		}
+
+		Barco a = new Barco(linhaAC, colunaAC, tamanho, corpo, orienta);
+		return a;
+	}
+
+	public Barco getbarcoAUC2(int tipo)
+
+	{
+		int tamanho = 0;
+		char corpo = 0;
+
+		switch (tipo) {
+
+		case 0:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Aircraft Carrier e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 5;
+			corpo = 'A';
+			break;
+
+		case 1:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Battleship e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 4;
+			corpo = 'B';
+			break;
+
+		case 2:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Cruiser e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 3;
+			corpo = 'C';
+			break;
+
+		case 3:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer1 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+
+		case 4:
+			System.out.println();
+			System.out.println();
+			System.out.println("Insira as coordenadas do Destroyer2 e a sua orientação(0 horizontal, 1 vertical):");
+			
+			tamanho = 2;
+			corpo = 'D';
+
+			break;
+		}
+
+		int linhaAC = random.nextInt(8);
+		int colunaAC = random.nextInt(8);
+		int orienta = random.nextInt(2);
+		System.out.println(linhaAC + "  -  " + colunaAC);
+
+		while ((colunaAC > 8 - tamanho && orienta == 0) || (linhaAC > 8 - tamanho && orienta == 1)
+				|| (colisao(linhaAC, colunaAC, tamanho, orienta, tabuB))) {
+			// ver se o barco cabe no final das linhas e das colunas
+			System.out.println("Fora do tabuleiro ou peça sobreposta");
+			System.out.println("Insira de novo as coordenadas do Barco:  ");
+
+			linhaAC = random.nextInt(8);
+			colunaAC = random.nextInt(8);
+			orienta = random.nextInt(2);
+			System.out.println(linhaAC + "  -  " + colunaAC);
+
+		}
+
+		Barco a = new Barco(linhaAC, colunaAC, tamanho, corpo, orienta);
+		return a;
+	}
+
+	public boolean colisao(int linha, int coluna, int tamanho, int orienta, char[][] tab) {
+
+		boolean colisa = false;
+
+		if (orienta == 0) {
+			for (int i = 0; i < tamanho; i++) {
+				if (tab[linha][coluna + i] != '0') {
+					return true;
+				}
+
+			}
+		} else if (orienta == 1) {
+			for (int i = 0; i < tamanho; i++) {
+				if (tab[linha + i][coluna] != '0') {
+					return true;
+				}
+
+			}
+		}
+		return colisa;
+	}
+
+	public boolean fim(int a) {
+		boolean jogo = false;
+		if (a == 16) {
+			jogo = true;
+		}
+
+		return jogo;
+	}
+
+}
